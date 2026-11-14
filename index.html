@@ -3,33 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>PORTAL MR</title>
+<meta name="theme-color" content="#020711">
+<title>PORTAL MR — Game Universe</title>
 <style>
-:root{--blue:#22b8ff;--cyan:#a5edff}
+:root{--blue:#22b8ff;--cyan:#a5edff;--panel:#061a30}
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020711;color:white;font-family:system-ui,Arial}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020711;color:#fff;font-family:system-ui,Arial,sans-serif;touch-action:none}
 #stage{position:fixed;inset:0;display:grid;grid-template-columns:1fr 1fr;background:#000}
-.eye{position:relative;overflow:hidden;border-right:1px solid #4bcaff55}
-.feed{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.72) saturate(.8)}
+.eye{position:relative;overflow:hidden;border-right:1px solid #4bcaff55;background:#020711}
+.feed{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.7) saturate(.85)}
 canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.hud{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;perspective:900px}
-.brand{position:absolute;top:3%;left:5%;font-size:clamp(9px,2vw,15px);letter-spacing:.15em;color:#bceeff;text-shadow:0 0 12px #0789d5}
-.status{position:absolute;top:3%;right:5%;font-size:clamp(8px,1.6vw,12px);color:#bceeff}
-.holo{pointer-events:none;max-width:94%;padding:clamp(7px,1.8vw,15px);border:1px solid #59d6ffcc;border-radius:18px;background:linear-gradient(120deg,#04223bd9,#07152cdb);box-shadow:0 0 28px #009dff66,inset 0 0 18px #20bfff33;backdrop-filter:blur(8px);transform:translate3d(var(--shift-x,0px),var(--shift-y,0px),0) rotateY(var(--tilt,0deg));transition:transform .12s linear}
-h1{font-size:clamp(15px,3.2vw,25px);margin:0 0 4px;text-align:center;color:#e7faff;text-shadow:0 0 12px #18baff}
-.sub{text-align:center;color:#a9dff5;font-size:clamp(8px,1.6vw,12px);margin:0 0 9px}
-.menu{display:flex;flex-wrap:nowrap;justify-content:center;gap:clamp(4px,1vw,9px)}
-.tile{pointer-events:auto;min-width:clamp(52px,12vw,85px);min-height:clamp(54px,12vw,82px);padding:5px 3px;border:1px solid #52cfffaa;border-radius:12px;background:linear-gradient(145deg,#12527add,#071c36ee);color:#fff;font-size:clamp(8px,1.55vw,12px);font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-shadow:0 0 13px #008ed955}
-.emoji{font-size:clamp(18px,4vw,29px)}
-.hint{text-align:center;color:#b8eaff;font-size:clamp(8px,1.5vw,11px);margin-top:8px}
+.hud{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;perspective:900px;padding:4px}
+.brand{position:absolute;top:3%;left:5%;font-size:clamp(9px,2vw,15px);letter-spacing:.15em;color:#bceeff;text-shadow:0 0 12px #0789d5;z-index:2}
+.status{position:absolute;top:3%;right:5%;font-size:clamp(8px,1.6vw,12px);color:#bceeff;z-index:2}
+.holo{pointer-events:none;width:min(96%,540px);padding:clamp(8px,1.8vw,16px);border:1px solid #59d6ffcc;border-radius:18px;background:linear-gradient(120deg,#04223beF,#07152cf2);box-shadow:0 0 28px #009dff66,inset 0 0 18px #20bfff33;backdrop-filter:blur(9px);transform:translate3d(var(--shift-x,0px),var(--shift-y,0px),0) rotateY(var(--tilt,0deg));transition:transform .12s linear;max-height:82%;overflow:auto;scrollbar-width:none}
+.holo::-webkit-scrollbar{display:none}
+h1{font-size:clamp(15px,3.2vw,25px);margin:0 0 4px;text-align:center;color:#e7faff;text-shadow:0 0 12px #18baff;letter-spacing:.04em}
+.sub{text-align:center;color:#a9dff5;font-size:clamp(8px,1.6vw,12px);margin:0 0 10px}
+.menu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(5px,1vw,9px)}
+.tile{pointer-events:auto;min-width:0;min-height:clamp(55px,11vw,84px);padding:6px 3px;border:1px solid #52cfffaa;border-radius:12px;background:linear-gradient(145deg,#12527add,#071c36ee);color:#fff;font-size:clamp(8px,1.55vw,12px);font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-shadow:0 0 13px #008ed955;text-align:center;cursor:pointer;user-select:none}
+.tile:active{background:#087fbe;box-shadow:0 0 20px #35caff}
+.emoji{font-size:clamp(19px,4vw,30px);line-height:1.1}
+.hint{text-align:center;color:#b8eaff;font-size:clamp(8px,1.5vw,11px);margin-top:9px}
 #permission{position:fixed;z-index:8;inset:0;background:radial-gradient(ellipse,#12314c,#02060d 75%);display:flex;align-items:center;justify-content:center;padding:20px;text-align:center}
-#permission .box{max-width:500px;border:1px solid #35baff88;border-radius:22px;padding:24px;background:#061629ef}
+#permission .box{max-width:500px;border:1px solid #35baff88;border-radius:22px;padding:24px;background:#061629ef;box-shadow:0 0 35px #009dff44}
 button{border:1px solid #74d8ff;background:linear-gradient(135deg,#087fbe,#075080);color:white;padding:13px 22px;border-radius:13px;font-size:16px;font-weight:700}
-#error{color:#ffd0d0;font-size:12px;white-space:pre-wrap}
-#toast{position:fixed;z-index:5;bottom:3%;left:50%;transform:translateX(-50%);padding:7px 12px;background:#061b2be8;border:1px solid #36bfff;border-radius:99px;font-size:11px;white-space:nowrap}
-#divider{position:fixed;z-index:3;left:50%;top:0;bottom:0;width:2px;background:#5acfff55}
-#score{position:fixed;z-index:4;top:8px;left:50%;transform:translateX(-50%);font-size:11px;color:#d9f6ff}
-@media(orientation:portrait){.holo{max-width:97%;padding:6px}.tile{min-width:clamp(45px,11vw,70px)}}
+#start{cursor:pointer}#start:disabled{opacity:.6}
+#error{color:#ffd0d0;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+#toast{position:fixed;z-index:5;bottom:3%;left:50%;transform:translateX(-50%);padding:7px 12px;background:#061b2be8;border:1px solid #36bfff;border-radius:99px;font-size:clamp(9px,1.5vw,12px);white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+#divider{position:fixed;z-index:3;left:50%;top:0;bottom:0;width:2px;background:#5acfff55;pointer-events:none}
+#score{position:fixed;z-index:4;top:8px;left:50%;transform:translateX(-50%);font-size:clamp(9px,1.5vw,12px);color:#d9f6ff;text-shadow:0 0 8px #009dff;pointer-events:none;white-space:nowrap}
+@media(orientation:portrait){.holo{width:98%;padding:7px;max-height:76%}.tile{min-height:54px}.brand{top:1.5%}}
 </style>
 </head>
 <body>
@@ -40,78 +44,104 @@ button{border:1px solid #74d8ff;background:linear-gradient(135deg,#087fbe,#07508
 <div id="divider"></div><div id="score"></div><div id="toast">Faça pinça com polegar e indicador para selecionar</div>
 <div id="permission"><div class="box">
  <div style="font-size:42px">🌀</div><h1>PORTAL MR</h1>
- <p>Realidade mista em duas lentes, câmera traseira e mãos azuis.</p>
- <p style="color:#a9d8ec;font-size:13px">Permita a câmera e o movimento do aparelho. Use na horizontal para melhor visualização.</p>
+ <p>GAME UNIVERSE — uma arena de jogos em realidade mista.</p>
+ <p style="color:#a9d8ec;font-size:13px">Câmera traseira, duas lentes VR, giroscópio e rastreamento azul das duas mãos. Use o celular na horizontal.</p>
  <button id="start">INICIAR EXPERIÊNCIA</button><p id="error"></p>
 </div></div>
 <script>
-const eyes=[...document.querySelectorAll('.eye')],videos=eyes.map(e=>e.querySelector('video')),canvases=eyes.map(e=>e.querySelector('canvas')),ctxs=canvases.map(c=>c.getContext('2d'));
-let handsModel,latestHands=[],mode='menu',score=0,targets=[],lastAction=0,yaw=0,pitch=0,prevPinch=[false,false];
-const menu=[['🌐','Google','google'],['▶️','YouTube','youtube'],['🗺️','Mapas','maps'],['🎮','Jogos','games']];
+const eyes=[...document.querySelectorAll('.eye')];
+const videos=eyes.map(e=>e.querySelector('video'));
+const canvases=eyes.map(e=>e.querySelector('canvas'));
+const ctxs=canvases.map(c=>c.getContext('2d'));
 const $=s=>document.querySelector(s);
-function resize(){canvases.forEach((c,i)=>{let r=eyes[i].getBoundingClientRect();c.width=r.width*devicePixelRatio;c.height=r.height*devicePixelRatio;ctxs[i].setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)})}
+let handsModel,latestHands=[],mode='home',score=0,targets=[],lastAction=0,yaw=0,pitch=0,prevPinch=[false,false],gameStart=0,gameDuration=45000,lastSpawn=0,streamRef=null;
+const games=[
+ ['😈','Caça-Emojis','emoji','Encontre e capture os emojis'],
+ ['🧟','Defesa Zumbi','zombie','Capture os zumbis com sua mão-espada'],
+ ['🫧','Estoura-Bolhas','bubbles','Estoure todas as bolhas azuis'],
+ ['⭐','Chuva de Estrelas','stars','Capture estrelas brilhantes'],
+ ['☄️','Defesa Espacial','meteors','Destrua os meteoros antes que sumam'],
+ ['⚡','Reflexo Neon','reflex','Acerte os alvos antes que desapareçam']
+];
+const gameInfo={
+ emoji:{title:'CAÇA-EMOJIS',items:['😀','😎','👾','🤖','👻','🥳'],hint:'Faça pinça nos emojis para capturá-los'},
+ zombie:{title:'DEFESA ZUMBI',items:['🧟','🧟‍♂️','🧟‍♀️'],hint:'Sua mão é uma espada azul: faça pinça nos zumbis'},
+ bubbles:{title:'ESTOURA-BOLHAS',items:['🫧','🔵','🟣'],hint:'Faça pinça nas bolhas para estourá-las'},
+ stars:{title:'CHUVA DE ESTRELAS',items:['⭐','🌟','✨'],hint:'Capture as estrelas com uma pinça'},
+ meteors:{title:'DEFESA ESPACIAL',items:['☄️','🌑','💫'],hint:'Faça pinça nos meteoros para destruí-los'},
+ reflex:{title:'REFLEXO NEON',items:['⚡','💠','🔷'],hint:'Acerte os alvos neon rapidamente'}
+};
+function resize(){canvases.forEach((c,i)=>{const r=eyes[i].getBoundingClientRect();c.width=Math.max(1,Math.round(r.width*devicePixelRatio));c.height=Math.max(1,Math.round(r.height*devicePixelRatio));ctxs[i].setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)})}
 addEventListener('resize',resize);
 function toast(t){$('#toast').textContent=t}
-function menuMarkup(items,title='PORTAL MR',sub='ESCOLHA COM UMA PINÇA'){return `<div class="holo"><h1>${title}</h1><p class="sub">${sub}</p><div class="menu">${items.map(([ic,n,id])=>`<div class="tile" data-id="${id}"><span class="emoji">${ic}</span>${n}</div>`).join('')}</div><div class="hint">Mãos azuis • pinça para selecionar</div></div>`}
+function menuMarkup(items,title,sub){return `<div class="holo"><h1>${title}</h1><p class="sub">${sub}</p><div class="menu">${items.map(([ic,n,id])=>`<div class="tile" data-id="${id}"><span class="emoji">${ic}</span>${n}</div>`).join('')}</div><div class="hint">Mãos azuis • faça pinça para selecionar</div></div>`}
 function updateHud(){
- let items=menu,title='PORTAL MR',sub='ESCOLHA UM PORTAL';
- if(mode==='games'){items=[['😈','Caça-Emojis','emoji'],['🧟','Zumbis','zombie'],['↩️','Voltar','back']];title='ÁREA DE JOGOS';sub='ESCOLHA SEU JOGO'}
- else if(mode==='emoji'||mode==='zombie'){items=[['⌂','Menu','menu']];title=mode==='emoji'?'CAÇA-EMOJIS':'DEFESA DOS ZUMBIS';sub='Faça pinça nos alvos • Pontos: '+score}
- else if(['google','youtube','maps'].includes(mode)){items=[['↩️','Voltar','back'],['⌂','Início','menu']];title=mode.toUpperCase();sub='O portal abre em outra aba'}
+ let items,title='PORTAL MR',sub='GAME UNIVERSE • ESCOLHA SEU JOGO';
+ if(mode==='home')items=games;
+ else if(gameInfo[mode]){const g=gameInfo[mode];items=[['↩️','Sair do jogo','home']];title=g.title;sub=g.hint+' • '+Math.ceil(Math.max(0,gameDuration-(Date.now()-gameStart))/1000)+'s'}
+ else if(mode==='over'){items=[['🔄','Jogar novamente','restart'],['🏠','Menu de jogos','home']];title='FIM DE JOGO';sub='Pontuação: '+score+' • Escolha o próximo passo'}
  eyes.forEach(e=>e.querySelector('.hud').innerHTML=menuMarkup(items,title,sub));
- $('#score').textContent=(mode==='emoji'||mode==='zombie')?'Pontos: '+score:'';
+ $('#score').textContent=gameInfo[mode]?'PONTOS: '+score+(mode==='zombie'?' • ESPADA AZUL':''):(mode==='over'?'RESULTADO: '+score:'');
 }
-function spawn(){if(targets.length<5)targets.push({x:.18+Math.random()*.64,y:.22+Math.random()*.55,r:.06,life:Date.now(),emoji:mode==='zombie'?'🧟':['😀','😎','👾','🤖','👻'][Math.floor(Math.random()*5)]})}
+function startGame(id){window.lastGame=id;mode=id;score=0;targets=[];gameStart=Date.now();lastSpawn=0;lastAction=0;prevPinch=[false,false];updateHud();toast(gameInfo[id].hint)}
+function finishGame(){mode='over';targets=[];updateHud();toast('Partida encerrada! Você fez '+score+' pontos.')}
+function spawnTarget(){if(!gameInfo[mode]||targets.length>=5)return;const items=gameInfo[mode].items;targets.push({x:.13+Math.random()*.74,y:.19+Math.random()*.65,r:mode==='bubbles'?.075:.065,life:Date.now(),emoji:items[Math.floor(Math.random()*items.length)],phase:Math.random()*6.28})}
 function selectAt(x,y){
- if(Date.now()-lastAction<250)return;
- if(['menu','games','google','youtube','maps'].includes(mode)){
-  let tiles=[...eyes[0].querySelectorAll('.tile')],rect=eyes[0].getBoundingClientRect(),px=x*rect.width+rect.left,py=y*rect.height+rect.top;
-  let hit=tiles.find(t=>{let r=t.getBoundingClientRect();return px>=r.left&&px<=r.right&&py>=r.top&&py<=r.bottom});
-  if(!hit)return;let id=hit.dataset.id;lastAction=Date.now();
-  if(id==='google'){mode='google';window.open('https://www.google.com','_blank')}
-  else if(id==='youtube'){mode='youtube';window.open('https://m.youtube.com','_blank')}
-  else if(id==='maps'){mode='maps';window.open('https://www.google.com/maps','_blank')}
-  else if(id==='games')mode='games';
-  else if(id==='emoji'||id==='zombie'){mode=id;score=0;targets=[]}
-  else if(id==='back'||id==='menu'){mode='menu';targets=[]}
-  updateHud();return;
+ if(Date.now()-lastAction<180)return;
+ if(mode==='home'||mode==='over'){
+  const tiles=[...eyes[0].querySelectorAll('.tile')],rect=eyes[0].getBoundingClientRect(),px=x*rect.width+rect.left,py=y*rect.height+rect.top;
+  const hit=tiles.find(t=>{const r=t.getBoundingClientRect();return px>=r.left&&px<=r.right&&py>=r.top&&py<=r.bottom});
+  if(!hit)return;const id=hit.dataset.id;lastAction=Date.now();
+  if(gameInfo[id])startGame(id);else if(id==='home'){mode='home';targets=[];score=0;updateHud();toast('Escolha um jogo na arena')}else if(id==='restart')startGame(Object.keys(gameInfo).includes(window.lastGame)?window.lastGame:'emoji');
+  return;
  }
- if(mode==='emoji'||mode==='zombie'){let idx=targets.findIndex(t=>Math.hypot(t.x-x,t.y-y)<t.r*1.8);if(idx>=0){targets.splice(idx,1);score++;lastAction=Date.now();updateHud();toast('Acertou! +1')}}
+ if(gameInfo[mode]){
+  const tiles=[...eyes[0].querySelectorAll('.tile')],rect=eyes[0].getBoundingClientRect(),px=x*rect.width+rect.left,py=y*rect.height+rect.top;
+  const menuHit=tiles.find(t=>{const r=t.getBoundingClientRect();return px>=r.left&&px<=r.right&&py>=r.top&&py<=r.bottom});
+  if(menuHit&&menuHit.dataset.id==='home'){mode='home';targets=[];score=0;updateHud();toast('Escolha outro jogo na arena');lastAction=Date.now();return}
+  const idx=targets.findIndex(t=>Math.hypot(t.x-x,t.y-y)<t.r*1.75);
+  if(idx>=0){targets.splice(idx,1);score++;lastAction=Date.now();updateHud();toast(mode==='zombie'?'Zumbi derrotado! +1':'Acertou! +1')}
+ }
 }
 function draw(){
- let now=Date.now();
+ const now=Date.now();
+ if(gameInfo[mode]){
+  if(now-gameStart>=gameDuration)finishGame();
+  else if(now-lastSpawn>(mode==='reflex'?850:1250)){spawnTarget();lastSpawn=now}
+ }
  eyes.forEach((eye,i)=>{
-  let c=canvases[i],ctx=ctxs[i],w=c.width/devicePixelRatio,h=c.height/devicePixelRatio;ctx.clearRect(0,0,w,h);
-  let shiftX=Math.max(-14,Math.min(14,yaw*0.18)),shiftY=Math.max(-10,Math.min(10,pitch*0.12));
-  eye.querySelector('.holo')?.style.setProperty('--shift-x',shiftX+'px');
-  eye.querySelector('.holo')?.style.setProperty('--shift-y',shiftY+'px');
-  eye.querySelector('.holo')?.style.setProperty('--tilt',Math.max(-5,Math.min(5,yaw*.025))+'deg');
-  if(mode==='emoji'||mode==='zombie')targets.forEach(t=>{let x=t.x*w,y=t.y*h;ctx.font=`${Math.max(24,t.r*w*1.5)}px system-ui`;ctx.textAlign='center';ctx.fillText(t.emoji,x,y);ctx.beginPath();ctx.arc(x,y,t.r*w,0,Math.PI*2);ctx.strokeStyle='#35caff';ctx.lineWidth=2;ctx.stroke()});
-  latestHands.forEach((hand,hi)=>{if(!hand?.length)return;let pts=hand.map(p=>({x:p.x*w,y:p.y*h})),chains=[[0,1,2,3,4],[0,5,6,7,8],[0,9,10,11,12],[0,13,14,15,16],[0,17,18,19,20],[5,9,13,17]];
-   ctx.lineWidth=3;ctx.strokeStyle='#18baff';ctx.shadowBlur=9;ctx.shadowColor='#00aaff';
-   chains.forEach(ch=>{ctx.beginPath();ch.forEach((n,j)=>j?ctx.lineTo(pts[n].x,pts[n].y):ctx.moveTo(pts[n].x,pts[n].y));ctx.stroke()});
+  const c=canvases[i],ctx=ctxs[i],w=c.width/devicePixelRatio,h=c.height/devicePixelRatio;ctx.clearRect(0,0,w,h);
+  const shiftX=Math.max(-14,Math.min(14,yaw*.18)),shiftY=Math.max(-10,Math.min(10,pitch*.12));
+  const holo=eye.querySelector('.holo');if(holo){holo.style.setProperty('--shift-x',shiftX+'px');holo.style.setProperty('--shift-y',shiftY+'px');holo.style.setProperty('--tilt',Math.max(-5,Math.min(5,yaw*.025))+'deg')}
+  if(gameInfo[mode])targets.forEach(t=>{const x=t.x*w,y=t.y*h;const pulse=1+Math.sin(now/170+t.phase)*.08;ctx.save();ctx.shadowBlur=18;ctx.shadowColor=mode==='zombie'?'#8bff4d':'#28c7ff';ctx.font=`${Math.max(24,t.r*w*1.5)*pulse}px system-ui`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(t.emoji,x,y);ctx.beginPath();ctx.arc(x,y,t.r*w*pulse,0,Math.PI*2);ctx.strokeStyle=mode==='zombie'?'#9dff5a':'#35caff';ctx.lineWidth=2.5;ctx.stroke();ctx.restore()});
+  latestHands.forEach((hand,hi)=>{if(!hand||hand.length<21)return;const pts=hand.map(p=>({x:p.x*w,y:p.y*h}));const chains=[[0,1,2,3,4],[0,5,6,7,8],[0,9,10,11,12],[0,13,14,15,16],[0,17,18,19,20],[5,9,13,17]];
+   ctx.save();ctx.lineWidth=3;ctx.strokeStyle='#18baff';ctx.shadowBlur=10;ctx.shadowColor='#00aaff';chains.forEach(ch=>{ctx.beginPath();ch.forEach((n,j)=>j?ctx.lineTo(pts[n].x,pts[n].y):ctx.moveTo(pts[n].x,pts[n].y));ctx.stroke()});
    pts.forEach((p,n)=>{ctx.beginPath();ctx.arc(p.x,p.y,n===4||n===8?5:3.5,0,Math.PI*2);ctx.fillStyle='#28c7ff';ctx.fill()});
-   let pinch=Math.hypot(pts[4].x-pts[8].x,pts[4].y-pts[8].y)<w*.055;
+   if(mode==='zombie'){const a=pts[0],b=pts[12],dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy)||1,ex=b.x+dx/len*w*.20,ey=b.y+dy/len*w*.20;ctx.save();ctx.shadowBlur=20;ctx.shadowColor='#42d9ff';ctx.strokeStyle='#a8f4ff';ctx.lineWidth=7;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(ex,ey);ctx.stroke();ctx.strokeStyle='#168dff';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(ex,ey);ctx.stroke();ctx.restore()}
+   const pinch=Math.hypot(pts[4].x-pts[8].x,pts[4].y-pts[8].y)<w*.055;
    if(pinch&&!prevPinch[hi])selectAt((pts[4].x+pts[8].x)/2/w,(pts[4].y+pts[8].y)/2/h);
-   prevPinch[hi]=pinch;
+   prevPinch[hi]=pinch;ctx.restore();
   });
  });
- if((mode==='emoji'||mode==='zombie')&&now-lastAction>1100){spawn();lastAction=now}
- targets=targets.filter(t=>now-t.life<6500);requestAnimationFrame(draw)
+ if(gameInfo[mode]&&now-gameStart<gameDuration){targets=targets.filter(t=>now-t.life<6500);if(now-lastAction>3000&&targets.length===0)toast('Procure os alvos e faça pinça!')}
+ requestAnimationFrame(draw);
 }
-async function loadHands(){if(typeof Hands!=='undefined')return;let urls=['https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js','https://unpkg.com/@mediapipe/hands/hands.js'];let err;for(let url of urls){try{await new Promise((ok,no)=>{let s=document.createElement('script');s.src=url;s.onload=ok;s.onerror=()=>no(Error('Falha ao carregar '+url));document.head.appendChild(s)});if(typeof Hands!=='undefined')return}catch(e){err=e}}throw err||Error('MediaPipe indisponível')}
+async function loadHands(){if(typeof Hands!=='undefined')return;const urls=['https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js','https://unpkg.com/@mediapipe/hands/hands.js'];let err;for(const url of urls){try{await new Promise((ok,no)=>{const s=document.createElement('script');s.src=url;s.async=true;s.onload=ok;s.onerror=()=>no(Error('Falha ao carregar '+url));document.head.appendChild(s)});if(typeof Hands!=='undefined')return}catch(e){err=e}}throw err||Error('MediaPipe Hands indisponível')}
 async function start(){
- $('#start').disabled=true;$('#error').textContent='Iniciando...';
+ $('#start').disabled=true;$('#error').textContent='Iniciando câmera e rastreamento...';
  try{
+  if(!navigator.mediaDevices?.getUserMedia)throw Error('Este navegador não liberou acesso à câmera. Abra pelo Chrome em HTTPS.');
   resize();
-  const stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});
-  videos.forEach(v=>{v.srcObject=stream;v.muted=true;v.playsInline=true});await videos[0].play();
-  await loadHands();handsModel=new Hands({locateFile:f=>'https://cdn.jsdelivr.net/npm/@mediapipe/hands/'+f});
+  streamRef=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});
+  videos.forEach(v=>{v.srcObject=streamRef;v.muted=true;v.playsInline=true});
+  await Promise.all(videos.map(v=>v.play()));
+  await loadHands();
+  handsModel=new Hands({locateFile:f=>'https://cdn.jsdelivr.net/npm/@mediapipe/hands/'+f});
   handsModel.setOptions({maxNumHands:2,modelComplexity:1,minDetectionConfidence:.6,minTrackingConfidence:.55});
   await handsModel.initialize();handsModel.onResults(r=>{latestHands=r.multiHandLandmarks||[]});
   async function frame(){if(videos[0].readyState>=2){try{await handsModel.send({image:videos[0]})}catch(e){}}requestAnimationFrame(frame)}frame();
-  try{if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission)await DeviceOrientationEvent.requestPermission();addEventListener('deviceorientation',e=>{yaw=e.gamma||0;pitch=e.beta||0})}catch(e){}
-  $('#permission').style.display='none';$('#error').textContent='';mode='menu';updateHud();draw();toast('Câmera traseira ativa • duas mãos');
+  try{if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission){const p=await DeviceOrientationEvent.requestPermission();if(p!=='granted')toast('Giroscópio não autorizado')}addEventListener('deviceorientation',e=>{yaw=e.gamma||0;pitch=e.beta||0})}catch(e){toast('Giroscópio indisponível neste navegador')}
+  $('#permission').style.display='none';$('#error').textContent='';mode='home';updateHud();draw();toast('Arena pronta • escolha um jogo com pinça');
  }catch(e){$('#start').disabled=false;$('#error').textContent='Erro: '+(e.message||e);toast('Não foi possível iniciar')}
 }
 $('#start').addEventListener('click',start);resize();updateHud();
