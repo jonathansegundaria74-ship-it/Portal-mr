@@ -3,140 +3,118 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Portal MR — VR de mãos</title>
+<title>PORTAL MR</title>
 <style>
-:root{--blue:#22b8ff;--cyan:#8be3ff;--panel:rgba(5,18,35,.78);--line:rgba(76,196,255,.8)}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#02060d;color:#fff;font-family:system-ui,Arial}
+:root{--blue:#22b8ff;--cyan:#a5edff}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020711;color:white;font-family:system-ui,Arial}
 #stage{position:fixed;inset:0;display:grid;grid-template-columns:1fr 1fr;background:#000}
-.eye{position:relative;overflow:hidden;border:1px solid #14283b}
-.feed{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);filter:saturate(.8) brightness(.72)}
+.eye{position:relative;overflow:hidden;border-right:1px solid #4bcaff55}
+.feed{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.72) saturate(.8)}
 canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.hud{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5%;pointer-events:none}
-.brand{position:absolute;top:5%;left:7%;font-size:clamp(11px,2.2vw,18px);letter-spacing:.18em;color:#a8e8ff;text-shadow:0 0 12px #0789d5}
-.status{position:absolute;top:5%;right:7%;font-size:clamp(9px,1.8vw,14px);color:#bdeeff}
-.panel{pointer-events:none;width:min(86%,440px);padding:clamp(12px,2.8vw,24px);border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,rgba(5,28,52,.88),rgba(4,10,23,.86));box-shadow:0 0 35px #008bd455,inset 0 0 24px #008bd422;text-align:center;backdrop-filter:blur(9px)}
-h1{font-size:clamp(20px,4.5vw,36px);margin:0 0 5px;color:#e9faff;text-shadow:0 0 16px #19aaff}
-.sub{font-size:clamp(9px,1.9vw,14px);color:#a9d8ec;margin:0 0 14px}
-.menu{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.tile{min-height:clamp(55px,12vw,92px);border:1px solid #4ac5ff88;border-radius:14px;background:linear-gradient(135deg,#123957dd,#07182bdd);color:#fff;font-size:clamp(10px,2vw,16px);font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-shadow:0 1px 5px #000;box-shadow:0 4px 15px #0008}
-.tile .emoji{font-size:clamp(20px,4vw,32px)}
-.hint{font-size:clamp(9px,1.7vw,13px);color:#b8eaff;margin-top:12px}
-#permission{position:fixed;z-index:5;inset:0;background:radial-gradient(ellipse at center,#12314c,#02060d 70%);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}
-#permission .box{max-width:520px;border:1px solid #35baff88;border-radius:24px;padding:28px;background:#061629eF;box-shadow:0 0 50px #008bd455}
-button{border:1px solid #74d8ff;background:linear-gradient(135deg,#087fbe,#075080);color:white;padding:13px 22px;border-radius:13px;font-size:16px;font-weight:700;margin:7px}
-#toast{position:fixed;z-index:4;left:50%;bottom:5%;transform:translateX(-50%);padding:9px 16px;background:#061b2be8;border:1px solid #36bfff;border-radius:99px;font-size:12px;white-space:nowrap}
-#centerline{position:fixed;z-index:3;left:50%;top:0;bottom:0;width:2px;background:#5acfff55}
-#score{position:fixed;z-index:3;top:12px;left:50%;transform:translateX(-50%);font-size:12px;color:#d9f6ff;text-shadow:0 1px 5px #000}
-@media(orientation:portrait){.panel{width:91%}.eye{border-radius:0}}
+.hud{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;perspective:900px}
+.brand{position:absolute;top:3%;left:5%;font-size:clamp(9px,2vw,15px);letter-spacing:.15em;color:#bceeff;text-shadow:0 0 12px #0789d5}
+.status{position:absolute;top:3%;right:5%;font-size:clamp(8px,1.6vw,12px);color:#bceeff}
+.holo{pointer-events:none;max-width:94%;padding:clamp(7px,1.8vw,15px);border:1px solid #59d6ffcc;border-radius:18px;background:linear-gradient(120deg,#04223bd9,#07152cdb);box-shadow:0 0 28px #009dff66,inset 0 0 18px #20bfff33;backdrop-filter:blur(8px);transform:translate3d(var(--shift-x,0px),var(--shift-y,0px),0) rotateY(var(--tilt,0deg));transition:transform .12s linear}
+h1{font-size:clamp(15px,3.2vw,25px);margin:0 0 4px;text-align:center;color:#e7faff;text-shadow:0 0 12px #18baff}
+.sub{text-align:center;color:#a9dff5;font-size:clamp(8px,1.6vw,12px);margin:0 0 9px}
+.menu{display:flex;flex-wrap:nowrap;justify-content:center;gap:clamp(4px,1vw,9px)}
+.tile{pointer-events:auto;min-width:clamp(52px,12vw,85px);min-height:clamp(54px,12vw,82px);padding:5px 3px;border:1px solid #52cfffaa;border-radius:12px;background:linear-gradient(145deg,#12527add,#071c36ee);color:#fff;font-size:clamp(8px,1.55vw,12px);font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-shadow:0 0 13px #008ed955}
+.emoji{font-size:clamp(18px,4vw,29px)}
+.hint{text-align:center;color:#b8eaff;font-size:clamp(8px,1.5vw,11px);margin-top:8px}
+#permission{position:fixed;z-index:8;inset:0;background:radial-gradient(ellipse,#12314c,#02060d 75%);display:flex;align-items:center;justify-content:center;padding:20px;text-align:center}
+#permission .box{max-width:500px;border:1px solid #35baff88;border-radius:22px;padding:24px;background:#061629ef}
+button{border:1px solid #74d8ff;background:linear-gradient(135deg,#087fbe,#075080);color:white;padding:13px 22px;border-radius:13px;font-size:16px;font-weight:700}
+#error{color:#ffd0d0;font-size:12px;white-space:pre-wrap}
+#toast{position:fixed;z-index:5;bottom:3%;left:50%;transform:translateX(-50%);padding:7px 12px;background:#061b2be8;border:1px solid #36bfff;border-radius:99px;font-size:11px;white-space:nowrap}
+#divider{position:fixed;z-index:3;left:50%;top:0;bottom:0;width:2px;background:#5acfff55}
+#score{position:fixed;z-index:4;top:8px;left:50%;transform:translateX(-50%);font-size:11px;color:#d9f6ff}
+@media(orientation:portrait){.holo{max-width:97%;padding:6px}.tile{min-width:clamp(45px,11vw,70px)}}
 </style>
 </head>
 <body>
 <div id="stage">
- <section class="eye" id="leftEye"><video class="feed" playsinline muted></video><canvas></canvas><div class="brand">PORTAL <b>MR</b></div><div class="status">MÃO AZUL ●</div><div class="hud"></div></section>
- <section class="eye" id="rightEye"><video class="feed" playsinline muted></video><canvas></canvas><div class="brand">PORTAL <b>MR</b></div><div class="status">RASTREAMENTO ●</div><div class="hud"></div></section>
+ <section class="eye"><video class="feed" playsinline muted></video><canvas></canvas><div class="brand">PORTAL MR</div><div class="status">MÃO AZUL ●</div><div class="hud"></div></section>
+ <section class="eye"><video class="feed" playsinline muted></video><canvas></canvas><div class="brand">PORTAL MR</div><div class="status">RASTREAMENTO ●</div><div class="hud"></div></section>
 </div>
-<div id="centerline"></div><div id="score"></div>
-<div id="toast">Faça uma pinça com o polegar e o indicador para selecionar</div>
+<div id="divider"></div><div id="score"></div><div id="toast">Faça pinça com polegar e indicador para selecionar</div>
 <div id="permission"><div class="box">
  <div style="font-size:42px">🌀</div><h1>PORTAL MR</h1>
- <p>Um mini ambiente de realidade mista em duas lentes, com giroscópio e rastreamento azul das duas mãos.</p>
- <p style="color:#a9d8ec;font-size:13px">Use em um celular, permita a câmera e mova o aparelho como um visor VR. Coloque o celular em um suporte tipo Cardboard para uma experiência melhor.</p>
- <button id="start">INICIAR EXPERIÊNCIA</button>
- <div id="errorBox" style="display:none;margin-top:12px;padding:10px;border:1px solid #ff8585;border-radius:10px;color:#ffd0d0;font-size:12px;white-space:pre-wrap;text-align:left"></div>
- <div style="font-size:11px;color:#85b8d1;margin-top:8px">A câmera é processada no próprio navegador. Requer conexão HTTPS e navegador compatível.</div>
- </div></div>
+ <p>Realidade mista em duas lentes, câmera traseira e mãos azuis.</p>
+ <p style="color:#a9d8ec;font-size:13px">Permita a câmera e o movimento do aparelho. Use na horizontal para melhor visualização.</p>
+ <button id="start">INICIAR EXPERIÊNCIA</button><p id="error"></p>
+</div></div>
 <script>
-async function loadHandsLibrary(){
- if(typeof Hands!=='undefined')return;
- const urls=[
-  'https://unpkg.com/@mediapipe/hands/hands.js',
-  'https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js'
- ];
- let lastError;
- for(const url of urls){
-  try{
-   await new Promise((resolve,reject)=>{
-    const script=document.createElement('script');
-    script.src=url;script.async=true;
-    script.onload=resolve;
-    script.onerror=()=>reject(new Error('Não foi possível carregar '+url));
-    document.head.appendChild(script);
-   });
-   if(typeof Hands!=='undefined')return;
-  }catch(e){lastError=e}
- }
- throw lastError||new Error('Biblioteca MediaPipe Hands indisponível');
-}
-
-const $=s=>document.querySelector(s), eyes=[...document.querySelectorAll('.eye')], videos=eyes.map(e=>e.querySelector('video')), canvases=eyes.map(e=>e.querySelector('canvas')), ctxs=canvases.map(c=>c.getContext('2d'));
-let handsModel, camera, latestHands=[], mode='menu', score=0, targets=[], lastAction=0, yaw=0,pitch=0,gyro=false,prevPinch=[false,false],menuItems=[];
+const eyes=[...document.querySelectorAll('.eye')],videos=eyes.map(e=>e.querySelector('video')),canvases=eyes.map(e=>e.querySelector('canvas')),ctxs=canvases.map(c=>c.getContext('2d'));
+let handsModel,latestHands=[],mode='menu',score=0,targets=[],lastAction=0,yaw=0,pitch=0,prevPinch=[false,false];
 const menu=[['🌐','Google','google'],['▶️','YouTube','youtube'],['🗺️','Mapas','maps'],['🎮','Jogos','games']];
-function resize(){canvases.forEach((c,i)=>{let r=eyes[i].getBoundingClientRect();c.width=r.width*devicePixelRatio;c.height=r.height*devicePixelRatio;ctxs[i].setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)})}addEventListener('resize',resize);
-function showMenu(){mode='menu';targets=[];score=0;updateHud();toast('Pinça sobre um botão para abrir');}
-function updateHud(){let html='';if(mode==='menu'){html=`<div class="panel"><h1>PORTAL MR</h1><p class="sub">ESCOLHA UM PORTAL COM UMA PINÇA</p><div class="menu">${menu.map(([ic,n,id])=>`<div class="tile" data-id="${id}"><span class="emoji">${ic}</span>${n}</div>`).join('')}</div><div class="hint">🖐️ Rastreie as duas mãos • 🤏 Pinça para selecionar</div></div>`}
-else if(mode==='games'){html=`<div class="panel"><h1>ÁREA DE JOGOS</h1><p class="sub">ESCOLHA SEU DESAFIO</p><div class="menu"><div class="tile" data-id="emoji"><span class="emoji">😈</span>Caça-Emojis</div><div class="tile" data-id="zombie"><span class="emoji">🧟</span>Espada de Luz</div><div class="tile" data-id="back"><span class="emoji">↩️</span>Voltar</div></div><div class="hint">Faça pinça em cima da opção</div></div>`}
-else if(mode==='emoji'||mode==='zombie'){html=`<div class="panel"><h1>${mode==='emoji'?'CAÇA-EMOJIS':'ESPADA DE LUZ'}</h1><p class="sub">${mode==='emoji'?'Belisque os emojis para marcar pontos':'Sua mão vira uma lâmina azul: faça pinça perto dos zumbis'}</p><div class="hint">Pontos: ${score}</div><div class="menu"><div class="tile" data-id="menu"><span class="emoji">⌂</span>Menu</div></div></div>`}
-else {html=`<div class="panel"><h1>${mode==='google'?'GOOGLE':mode==='youtube'?'YOUTUBE':'MAPAS'}</h1><p class="sub">${mode==='maps'?'Explore lugares do mundo no Google Maps': 'Portal externo aberto em outra aba'}</p><div class="menu"><div class="tile" data-id="back">↩️ Voltar</div><div class="tile" data-id="menu">⌂ Início</div></div></div>`}
-eyes.forEach(e=>e.querySelector('.hud').innerHTML=html);
-}
+const $=s=>document.querySelector(s);
+function resize(){canvases.forEach((c,i)=>{let r=eyes[i].getBoundingClientRect();c.width=r.width*devicePixelRatio;c.height=r.height*devicePixelRatio;ctxs[i].setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)})}
+addEventListener('resize',resize);
 function toast(t){$('#toast').textContent=t}
-function spawn(){if(targets.length<5){targets.push({x:.18+Math.random()*.64,y:.23+Math.random()*.52,r:.055,life:Date.now(),emoji:['😀','😎','👾','🍕','🤖','👻'][Math.floor(Math.random()*6)]})}}
-function draw(){let now=Date.now();eyes.forEach((eye,i)=>{let c=canvases[i],ctx=ctxs[i],w=c.width/devicePixelRatio,h=c.height/devicePixelRatio;ctx.clearRect(0,0,w,h);
- // Gyroscope gives a subtle parallax shift in both eye views.
- ctx.save();ctx.translate(Math.sin(yaw)*10,Math.sin(pitch)*7);
- if(mode==='emoji'||mode==='zombie'){targets.forEach(t=>{let x=t.x*w,y=t.y*h;ctx.shadowBlur=22;ctx.shadowColor='#16bfff';ctx.fillStyle=mode==='emoji'?'#fff':'#d5f7ff';ctx.font=`${Math.max(25,t.r*w*1.5)}px system-ui`;ctx.textAlign='center';ctx.fillText(t.emoji,x,y);ctx.beginPath();ctx.arc(x,y,t.r*w,0,Math.PI*2);ctx.strokeStyle='#3fcaffaa';ctx.lineWidth=2;ctx.stroke()})}
- latestHands.forEach((hand,hi)=>{if(!hand||!hand.length)return;let pts=hand.map(p=>({x:(1-p.x)*w,y:p.y*h}));let chains=[[0,1,2,3,4],[0,5,6,7,8],[0,9,10,11,12],[0,13,14,15,16],[0,17,18,19,20],[5,9,13,17]];
- ctx.lineWidth=3;ctx.strokeStyle='#18baff';ctx.shadowBlur=9;ctx.shadowColor='#00aaff';chains.forEach(ch=>{ctx.beginPath();ch.forEach((n,j)=>j?ctx.lineTo(pts[n].x,pts[n].y):ctx.moveTo(pts[n].x,pts[n].y));ctx.stroke()});
- pts.forEach((p,n)=>{ctx.beginPath();ctx.arc(p.x,p.y,n===4||n===8?5:3.5,0,Math.PI*2);ctx.fillStyle='#28c7ff';ctx.fill();ctx.strokeStyle='#d6f8ff';ctx.lineWidth=1;ctx.stroke()});
- let pinch=Math.hypot(pts[4].x-pts[8].x,pts[4].y-pts[8].y)<w*.055;
- if(pinch){ctx.beginPath();ctx.arc((pts[4].x+pts[8].x)/2,(pts[4].y+pts[8].y)/2,13,0,Math.PI*2);ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.stroke();if(!prevPinch[hi])handlePinch((pts[4].x+pts[8].x)/2/w,(pts[4].y+pts[8].y)/2/h)}
- prevPinch[hi]=pinch;
- if(mode==='zombie'){ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);ctx.lineTo(pts[8].x,pts[8].y);ctx.strokeStyle=pinch?'#e8fbff':'#20baff';ctx.lineWidth=pinch?9:5;ctx.shadowBlur=20;ctx.stroke()}
- });ctx.restore();
- });
- if((mode==='emoji'||mode==='zombie')&&now-lastAction>900){spawn();lastAction=now}
- targets=targets.filter(t=>now-t.life<(mode==='zombie'?4500:6000));requestAnimationFrame(draw)}
-function handlePinch(x,y){if(Date.now()-lastAction<180)return;
- if(mode==='menu'||mode==='games'||mode==='google'||mode==='youtube'||mode==='maps'){
-  let id;let tiles=[...eyes[0].querySelectorAll('.tile')];if(tiles.length){let rect=eyes[0].getBoundingClientRect();let px=x*rect.width,py=y*rect.height;let hit=tiles.find(t=>{let r=t.getBoundingClientRect();return px+rect.left>=r.left&&px+rect.left<=r.right&&py+rect.top>=r.top&&py+rect.top<=r.bottom});id=hit?.dataset.id}
-  if(!id)return;lastAction=Date.now();
+function menuMarkup(items,title='PORTAL MR',sub='ESCOLHA COM UMA PINÇA'){return `<div class="holo"><h1>${title}</h1><p class="sub">${sub}</p><div class="menu">${items.map(([ic,n,id])=>`<div class="tile" data-id="${id}"><span class="emoji">${ic}</span>${n}</div>`).join('')}</div><div class="hint">Mãos azuis • pinça para selecionar</div></div>`}
+function updateHud(){
+ let items=menu,title='PORTAL MR',sub='ESCOLHA UM PORTAL';
+ if(mode==='games'){items=[['😈','Caça-Emojis','emoji'],['🧟','Zumbis','zombie'],['↩️','Voltar','back']];title='ÁREA DE JOGOS';sub='ESCOLHA SEU JOGO'}
+ else if(mode==='emoji'||mode==='zombie'){items=[['⌂','Menu','menu']];title=mode==='emoji'?'CAÇA-EMOJIS':'DEFESA DOS ZUMBIS';sub='Faça pinça nos alvos • Pontos: '+score}
+ else if(['google','youtube','maps'].includes(mode)){items=[['↩️','Voltar','back'],['⌂','Início','menu']];title=mode.toUpperCase();sub='O portal abre em outra aba'}
+ eyes.forEach(e=>e.querySelector('.hud').innerHTML=menuMarkup(items,title,sub));
+ $('#score').textContent=(mode==='emoji'||mode==='zombie')?'Pontos: '+score:'';
+}
+function spawn(){if(targets.length<5)targets.push({x:.18+Math.random()*.64,y:.22+Math.random()*.55,r:.06,life:Date.now(),emoji:mode==='zombie'?'🧟':['😀','😎','👾','🤖','👻'][Math.floor(Math.random()*5)]})}
+function selectAt(x,y){
+ if(Date.now()-lastAction<250)return;
+ if(['menu','games','google','youtube','maps'].includes(mode)){
+  let tiles=[...eyes[0].querySelectorAll('.tile')],rect=eyes[0].getBoundingClientRect(),px=x*rect.width+rect.left,py=y*rect.height+rect.top;
+  let hit=tiles.find(t=>{let r=t.getBoundingClientRect();return px>=r.left&&px<=r.right&&py>=r.top&&py<=r.bottom});
+  if(!hit)return;let id=hit.dataset.id;lastAction=Date.now();
   if(id==='google'){mode='google';window.open('https://www.google.com','_blank')}
   else if(id==='youtube'){mode='youtube';window.open('https://m.youtube.com','_blank')}
   else if(id==='maps'){mode='maps';window.open('https://www.google.com/maps','_blank')}
-  else if(id==='games'){mode='games'}
+  else if(id==='games')mode='games';
   else if(id==='emoji'||id==='zombie'){mode=id;score=0;targets=[]}
-  else if(id==='back'||id==='menu'){showMenu()}
+  else if(id==='back'||id==='menu'){mode='menu';targets=[]}
   updateHud();return;
  }
- if(mode==='emoji'||mode==='zombie'){let w=eyes[0].clientWidth,h=eyes[0].clientHeight;let t=targets.findIndex(t=>Math.hypot(t.x-x,t.y-y)<t.r*1.7);if(t>=0){targets.splice(t,1);score++;lastAction=Date.now();updateHud();toast(mode==='emoji'?'Emoji capturado!':'Zumbi derrotado!')} }
+ if(mode==='emoji'||mode==='zombie'){let idx=targets.findIndex(t=>Math.hypot(t.x-x,t.y-y)<t.r*1.8);if(idx>=0){targets.splice(idx,1);score++;lastAction=Date.now();updateHud();toast('Acertou! +1')}}
 }
-async function start(){try{
- const errBox=$('#errorBox');errBox.style.display='none';errBox.textContent='';
- $('#start').disabled=true;$('#start').textContent='INICIANDO...';
- resize();
- const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:1280},height:{ideal:720}},audio:false});
- videos.forEach(v=>{v.srcObject=stream;v.muted=true;v.playsInline=true;}); await videos[0].play();
- await loadHandsLibrary();
- handsModel=new Hands({locateFile:f=>`https://unpkg.com/@mediapipe/hands/${f}`});
- handsModel.setOptions({maxNumHands:2,modelComplexity:1,minDetectionConfidence:.6,minTrackingConfidence:.55}); await handsModel.initialize();
- handsModel.onResults(r=>{latestHands=r.multiHandLandmarks||[]});
- // Reuse the already-authorized camera stream; do not ask MediaPipe Camera
- // Utils to open a second camera stream (which can fail on Android).
- const processFrame=async()=>{if(handsModel && videos[0].readyState>=2){try{await handsModel.send({image:videos[0]})}catch(err){console.warn('Hand tracking frame:',err)}}requestAnimationFrame(processFrame)};
- await new Promise((resolve,reject)=>{if(videos[0].readyState>=2)return resolve();videos[0].onloadedmetadata=()=>resolve();setTimeout(()=>reject(new Error('A câmera não iniciou a tempo')),10000)});
- processFrame();
- try{if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission){let p=await DeviceOrientationEvent.requestPermission();gyro=p==='granted'}else{gyro=true}}
- catch(e){gyro=false}
- if(gyro)addEventListener('deviceorientation',e=>{yaw=(e.gamma||0)*Math.PI/180;pitch=(e.beta||0)*Math.PI/180});
- showMenu();draw();$('#permission').style.display='none';toast('Câmera ativa • rastreando até duas mãos');
- }catch(e){
-  console.error(e);
-  $('#permission').style.display='flex';
-  $('#start').disabled=false;$('#start').textContent='TENTAR NOVAMENTE';
-  const b=$('#errorBox');b.style.display='block';b.textContent='Erro detectado: '+(e?.message||String(e))+'\\n\\nVerifique a conexão e tente novamente.';
-  toast('Falha ao iniciar. Veja o erro na tela.');
- }}
-$('#start').addEventListener('click',start);
-showMenu();
+function draw(){
+ let now=Date.now();
+ eyes.forEach((eye,i)=>{
+  let c=canvases[i],ctx=ctxs[i],w=c.width/devicePixelRatio,h=c.height/devicePixelRatio;ctx.clearRect(0,0,w,h);
+  let shiftX=Math.max(-14,Math.min(14,yaw*0.18)),shiftY=Math.max(-10,Math.min(10,pitch*0.12));
+  eye.querySelector('.holo')?.style.setProperty('--shift-x',shiftX+'px');
+  eye.querySelector('.holo')?.style.setProperty('--shift-y',shiftY+'px');
+  eye.querySelector('.holo')?.style.setProperty('--tilt',Math.max(-5,Math.min(5,yaw*.025))+'deg');
+  if(mode==='emoji'||mode==='zombie')targets.forEach(t=>{let x=t.x*w,y=t.y*h;ctx.font=`${Math.max(24,t.r*w*1.5)}px system-ui`;ctx.textAlign='center';ctx.fillText(t.emoji,x,y);ctx.beginPath();ctx.arc(x,y,t.r*w,0,Math.PI*2);ctx.strokeStyle='#35caff';ctx.lineWidth=2;ctx.stroke()});
+  latestHands.forEach((hand,hi)=>{if(!hand?.length)return;let pts=hand.map(p=>({x:p.x*w,y:p.y*h})),chains=[[0,1,2,3,4],[0,5,6,7,8],[0,9,10,11,12],[0,13,14,15,16],[0,17,18,19,20],[5,9,13,17]];
+   ctx.lineWidth=3;ctx.strokeStyle='#18baff';ctx.shadowBlur=9;ctx.shadowColor='#00aaff';
+   chains.forEach(ch=>{ctx.beginPath();ch.forEach((n,j)=>j?ctx.lineTo(pts[n].x,pts[n].y):ctx.moveTo(pts[n].x,pts[n].y));ctx.stroke()});
+   pts.forEach((p,n)=>{ctx.beginPath();ctx.arc(p.x,p.y,n===4||n===8?5:3.5,0,Math.PI*2);ctx.fillStyle='#28c7ff';ctx.fill()});
+   let pinch=Math.hypot(pts[4].x-pts[8].x,pts[4].y-pts[8].y)<w*.055;
+   if(pinch&&!prevPinch[hi])selectAt((pts[4].x+pts[8].x)/2/w,(pts[4].y+pts[8].y)/2/h);
+   prevPinch[hi]=pinch;
+  });
+ });
+ if((mode==='emoji'||mode==='zombie')&&now-lastAction>1100){spawn();lastAction=now}
+ targets=targets.filter(t=>now-t.life<6500);requestAnimationFrame(draw)
+}
+async function loadHands(){if(typeof Hands!=='undefined')return;let urls=['https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js','https://unpkg.com/@mediapipe/hands/hands.js'];let err;for(let url of urls){try{await new Promise((ok,no)=>{let s=document.createElement('script');s.src=url;s.onload=ok;s.onerror=()=>no(Error('Falha ao carregar '+url));document.head.appendChild(s)});if(typeof Hands!=='undefined')return}catch(e){err=e}}throw err||Error('MediaPipe indisponível')}
+async function start(){
+ $('#start').disabled=true;$('#error').textContent='Iniciando...';
+ try{
+  resize();
+  const stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});
+  videos.forEach(v=>{v.srcObject=stream;v.muted=true;v.playsInline=true});await videos[0].play();
+  await loadHands();handsModel=new Hands({locateFile:f=>'https://cdn.jsdelivr.net/npm/@mediapipe/hands/'+f});
+  handsModel.setOptions({maxNumHands:2,modelComplexity:1,minDetectionConfidence:.6,minTrackingConfidence:.55});
+  await handsModel.initialize();handsModel.onResults(r=>{latestHands=r.multiHandLandmarks||[]});
+  async function frame(){if(videos[0].readyState>=2){try{await handsModel.send({image:videos[0]})}catch(e){}}requestAnimationFrame(frame)}frame();
+  try{if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission)await DeviceOrientationEvent.requestPermission();addEventListener('deviceorientation',e=>{yaw=e.gamma||0;pitch=e.beta||0})}catch(e){}
+  $('#permission').style.display='none';$('#error').textContent='';mode='menu';updateHud();draw();toast('Câmera traseira ativa • duas mãos');
+ }catch(e){$('#start').disabled=false;$('#error').textContent='Erro: '+(e.message||e);toast('Não foi possível iniciar')}
+}
+$('#start').addEventListener('click',start);resize();updateHud();
 </script>
-</body></html>
+</body>
+</html>
