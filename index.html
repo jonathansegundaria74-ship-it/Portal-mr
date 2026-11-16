@@ -17,13 +17,13 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020711;col
 .hud{position:absolute;inset:0;pointer-events:none;perspective:700px;overflow:hidden}
 .brand{position:absolute;top:3%;left:5%;font-size:clamp(9px,1.8vw,14px);letter-spacing:.16em;color:#c5f4ff;text-shadow:0 0 12px #0789d5}
 .status{position:absolute;top:3%;right:5%;font-size:clamp(7px,1.35vw,10px);color:#bceeff}
-.float{position:absolute;left:50%;top:61%;width:min(66%,310px);max-height:31%;overflow:auto;scrollbar-width:none;transform:translate(-50%,-50%) translate3d(var(--sx,0px),var(--sy,0px),0) rotateY(var(--ry,0deg));transform-style:preserve-3d;transition:transform .08s linear;pointer-events:none}
+.float{position:absolute;left:50%;top:50%;width:86%;max-width:460px;max-height:76%;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;transform:translate(-50%,-50%) translate3d(var(--sx,0px),var(--sy,0px),0) rotateY(var(--ry,0deg));transform-style:preserve-3d;transition:transform .08s linear;pointer-events:none}
 .float::-webkit-scrollbar{display:none}
 .panel{border:1px solid #58d9ffcc;border-radius:15px;padding:clamp(7px,1.2vw,12px);background:linear-gradient(125deg,rgba(4,37,62,.82),rgba(3,12,31,.78));box-shadow:0 0 20px #009dff55,inset 0 0 15px #20bfff25;backdrop-filter:blur(8px);text-align:center}
 h1{font-size:clamp(11px,2vw,17px);line-height:1.1;margin:0 0 5px;letter-spacing:.06em;text-shadow:0 0 12px #18baff}
 .sub{font-size:clamp(7px,1.25vw,10px);line-height:1.25;color:#b9eaff;margin:0 0 8px}
-.items{display:flex;justify-content:center;align-items:stretch;gap:clamp(4px,.8vw,7px);flex-wrap:wrap}
-.tile{pointer-events:auto;flex:1 1 27%;min-width:0;min-height:clamp(42px,8vw,62px);padding:5px 3px;border:1px solid #54cfff99;border-radius:10px;background:linear-gradient(145deg,#12527acc,#071c36e8);color:#fff;font-size:clamp(7px,1.2vw,10px);font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:0 0 10px #008ed944;text-align:center;cursor:pointer;user-select:none}
+.items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));justify-content:center;align-items:stretch;gap:clamp(5px,1vw,9px)}
+.tile{pointer-events:auto;width:100%;min-width:0;min-height:clamp(48px,10vh,76px);padding:5px 3px;border:1px solid #54cfff99;border-radius:10px;background:linear-gradient(145deg,#12527acc,#071c36e8);color:#fff;font-size:clamp(7px,1.2vw,10px);font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:0 0 10px #008ed944;text-align:center;cursor:pointer;user-select:none}
 .tile:active{background:#087fbe}
 .tile .ico{font-size:clamp(17px,3.2vw,25px);line-height:1}
 .hint{font-size:clamp(7px,1.15vw,9px);color:#bceaff;margin-top:7px}
@@ -35,7 +35,9 @@ button{border:1px solid #74d8ff;background:linear-gradient(135deg,#087fbe,#07508
 #toast{position:fixed;z-index:6;bottom:2.5%;left:50%;transform:translateX(-50%);padding:6px 10px;background:#061b2be8;border:1px solid #36bfff;border-radius:99px;font-size:clamp(8px,1.3vw,10px);white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 #divider{position:fixed;z-index:4;left:50%;top:0;bottom:0;width:2px;background:#5acfff55;pointer-events:none}
 #score{position:fixed;z-index:5;top:7px;left:50%;transform:translateX(-50%);font-size:clamp(8px,1.3vw,10px);color:#d9f6ff;text-shadow:0 0 8px #009dff;pointer-events:none;white-space:nowrap}
-@media(orientation:portrait){.float{width:72%;top:58%;max-height:34%}.tile{min-height:43px}}
+@media(orientation:landscape){.float{top:50%;width:88%;max-width:520px;max-height:78%}.panel{padding:clamp(9px,1.8vh,16px)}h1{font-size:clamp(14px,2.6vh,22px)}.sub{font-size:clamp(9px,1.8vh,13px)}.hint{font-size:clamp(8px,1.5vh,11px)}.tile{min-height:clamp(48px,11vh,82px)}.tile .ico{font-size:clamp(20px,4vh,30px)}}
+@media(orientation:portrait){.float{width:88%;top:50%;max-height:78%}.items{grid-template-columns:repeat(2,minmax(0,1fr))}.tile{min-height:52px}}
+@media(max-height:420px) and (orientation:landscape){.float{max-height:82%;width:84%}.panel{padding:7px}.tile{min-height:42px}.tile .ico{font-size:19px}.hint{margin-top:4px}}
 </style>
 </head>
 <body>
@@ -142,6 +144,8 @@ async function loadHands(){
 async function start(){
  $('#start').disabled=true;$('#error').textContent='Abrindo câmera e rastreamento...';
  try{
+  // Tenta entrar em tela cheia e travar a orientação horizontal para o modo VR.
+  try{if(!document.fullscreenElement&&document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();if(screen.orientation?.lock)await screen.orientation.lock('landscape')}catch(e){}
   if(!navigator.mediaDevices?.getUserMedia)throw Error('Abra esta página no Chrome usando HTTPS.');
   resize();streamRef=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});
   videos.forEach(v=>{v.srcObject=streamRef;v.muted=true;v.playsInline=true});await Promise.all(videos.map(v=>v.play()));
