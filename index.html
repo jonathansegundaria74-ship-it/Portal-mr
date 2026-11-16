@@ -3,159 +3,157 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#020711">
-<title>PORTAL MR — Holographic Worlds</title>
+<title>Portal MR — VR de mãos</title>
 <style>
-:root{--blue:#20bfff;--cyan:#b8f3ff;--glass:rgba(3,20,39,.72)}
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020711;color:#effbff;font-family:system-ui,Arial,sans-serif;touch-action:none}
+:root{--blue:#22b8ff;--cyan:#8be3ff;--panel:rgba(5,18,35,.78);--line:rgba(76,196,255,.8)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#02060d;color:#fff;font-family:system-ui,Arial}
 #stage{position:fixed;inset:0;display:grid;grid-template-columns:1fr 1fr;background:#000}
-.eye{position:relative;overflow:hidden;background:#020711;border-right:1px solid #4bcaff44}
-.feed,.world{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.feed{filter:brightness(.72) saturate(.92)}
-.world{pointer-events:none}
-.hud{position:absolute;inset:0;pointer-events:none;perspective:700px;overflow:hidden}
-.brand{position:absolute;top:3%;left:5%;font-size:clamp(9px,1.8vw,14px);letter-spacing:.16em;color:#c5f4ff;text-shadow:0 0 12px #0789d5}
-.status{position:absolute;top:3%;right:5%;font-size:clamp(7px,1.35vw,10px);color:#bceeff}
-.float{position:absolute;left:50%;top:50%;width:86%;max-width:460px;max-height:76%;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;transform:translate(-50%,-50%) translate3d(var(--sx,0px),var(--sy,0px),0) rotateY(var(--ry,0deg));transform-style:preserve-3d;transition:transform .08s linear;pointer-events:none}
-.float::-webkit-scrollbar{display:none}
-.panel{border:1px solid #58d9ffcc;border-radius:15px;padding:clamp(7px,1.2vw,12px);background:linear-gradient(125deg,rgba(4,37,62,.82),rgba(3,12,31,.78));box-shadow:0 0 20px #009dff55,inset 0 0 15px #20bfff25;backdrop-filter:blur(8px);text-align:center}
-h1{font-size:clamp(11px,2vw,17px);line-height:1.1;margin:0 0 5px;letter-spacing:.06em;text-shadow:0 0 12px #18baff}
-.sub{font-size:clamp(7px,1.25vw,10px);line-height:1.25;color:#b9eaff;margin:0 0 8px}
-.items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));justify-content:center;align-items:stretch;gap:clamp(5px,1vw,9px)}
-.tile{pointer-events:auto;width:100%;min-width:0;min-height:clamp(48px,10vh,76px);padding:5px 3px;border:1px solid #54cfff99;border-radius:10px;background:linear-gradient(145deg,#12527acc,#071c36e8);color:#fff;font-size:clamp(7px,1.2vw,10px);font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:0 0 10px #008ed944;text-align:center;cursor:pointer;user-select:none}
-.tile:active{background:#087fbe}
-.tile .ico{font-size:clamp(17px,3.2vw,25px);line-height:1}
-.hint{font-size:clamp(7px,1.15vw,9px);color:#bceaff;margin-top:7px}
-#permission{position:fixed;z-index:9;inset:0;background:radial-gradient(ellipse,#12314c,#02060d 75%);display:flex;align-items:center;justify-content:center;padding:18px;text-align:center}
-#permission .box{max-width:470px;border:1px solid #35baff88;border-radius:22px;padding:22px;background:#061629ef;box-shadow:0 0 35px #009dff44}
-button{border:1px solid #74d8ff;background:linear-gradient(135deg,#087fbe,#075080);color:white;padding:12px 20px;border-radius:13px;font-size:15px;font-weight:700}
-#start{cursor:pointer}
-#error{color:#ffd0d0;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}
-#toast{position:fixed;z-index:6;bottom:2.5%;left:50%;transform:translateX(-50%);padding:6px 10px;background:#061b2be8;border:1px solid #36bfff;border-radius:99px;font-size:clamp(8px,1.3vw,10px);white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
-#divider{position:fixed;z-index:4;left:50%;top:0;bottom:0;width:2px;background:#5acfff55;pointer-events:none}
-#score{position:fixed;z-index:5;top:7px;left:50%;transform:translateX(-50%);font-size:clamp(8px,1.3vw,10px);color:#d9f6ff;text-shadow:0 0 8px #009dff;pointer-events:none;white-space:nowrap}
-@media(orientation:landscape){.float{top:50%;width:88%;max-width:520px;max-height:78%}.panel{padding:clamp(9px,1.8vh,16px)}h1{font-size:clamp(14px,2.6vh,22px)}.sub{font-size:clamp(9px,1.8vh,13px)}.hint{font-size:clamp(8px,1.5vh,11px)}.tile{min-height:clamp(48px,11vh,82px)}.tile .ico{font-size:clamp(20px,4vh,30px)}}
-@media(orientation:portrait){.float{width:88%;top:50%;max-height:78%}.items{grid-template-columns:repeat(2,minmax(0,1fr))}.tile{min-height:52px}}
-@media(max-height:420px) and (orientation:landscape){.float{max-height:82%;width:84%}.panel{padding:7px}.tile{min-height:42px}.tile .ico{font-size:19px}.hint{margin-top:4px}}
+.eye{position:relative;overflow:hidden;border:1px solid #14283b}
+.feed{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);filter:saturate(.8) brightness(.72)}
+canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hud{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5%;pointer-events:none}
+.brand{position:absolute;top:5%;left:7%;font-size:clamp(11px,2.2vw,18px);letter-spacing:.18em;color:#a8e8ff;text-shadow:0 0 12px #0789d5}
+.status{position:absolute;top:5%;right:7%;font-size:clamp(9px,1.8vw,14px);color:#bdeeff}
+.panel{pointer-events:none;width:min(86%,440px);padding:clamp(12px,2.8vw,24px);border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,rgba(5,28,52,.88),rgba(4,10,23,.86));box-shadow:0 0 35px #008bd455,inset 0 0 24px #008bd422;text-align:center;backdrop-filter:blur(9px)}
+h1{font-size:clamp(20px,4.5vw,36px);margin:0 0 5px;color:#e9faff;text-shadow:0 0 16px #19aaff}
+.sub{font-size:clamp(9px,1.9vw,14px);color:#a9d8ec;margin:0 0 14px}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.tile{min-height:clamp(55px,12vw,92px);border:1px solid #4ac5ff88;border-radius:14px;background:linear-gradient(135deg,#123957dd,#07182bdd);color:#fff;font-size:clamp(10px,2vw,16px);font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-shadow:0 1px 5px #000;box-shadow:0 4px 15px #0008}
+.tile .emoji{font-size:clamp(20px,4vw,32px)}
+.hint{font-size:clamp(9px,1.7vw,13px);color:#b8eaff;margin-top:12px}
+#permission{position:fixed;z-index:5;inset:0;background:radial-gradient(ellipse at center,#12314c,#02060d 70%);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}
+#permission .box{max-width:520px;border:1px solid #35baff88;border-radius:24px;padding:28px;background:#061629eF;box-shadow:0 0 50px #008bd455}
+button{border:1px solid #74d8ff;background:linear-gradient(135deg,#087fbe,#075080);color:white;padding:13px 22px;border-radius:13px;font-size:16px;font-weight:700;margin:7px}
+#toast{position:fixed;z-index:4;left:50%;bottom:5%;transform:translateX(-50%);padding:9px 16px;background:#061b2be8;border:1px solid #36bfff;border-radius:99px;font-size:12px;white-space:nowrap}
+#centerline{position:fixed;z-index:3;left:50%;top:0;bottom:0;width:2px;background:#5acfff55}
+#score{position:fixed;z-index:3;top:12px;left:50%;transform:translateX(-50%);font-size:12px;color:#d9f6ff;text-shadow:0 1px 5px #000}
+@media(orientation:portrait){.panel{width:91%}.eye{border-radius:0}}
 </style>
 </head>
 <body>
 <div id="stage">
- <section class="eye"><video class="feed" playsinline muted></video><canvas class="world"></canvas><div class="brand">PORTAL MR</div><div class="status">MUNDO HOLOGRÁFICO ●</div><div class="hud"><div class="float"></div></div></section>
- <section class="eye"><video class="feed" playsinline muted></video><canvas class="world"></canvas><div class="brand">PORTAL MR</div><div class="status">RASTREAMENTO ●</div><div class="hud"><div class="float"></div></div></section>
+ <section class="eye" id="leftEye"><video class="feed" playsinline muted></video><canvas></canvas><div class="brand">PORTAL <b>MR</b></div><div class="status">MÃO AZUL ●</div><div class="hud"></div></section>
+ <section class="eye" id="rightEye"><video class="feed" playsinline muted></video><canvas></canvas><div class="brand">PORTAL <b>MR</b></div><div class="status">RASTREAMENTO ●</div><div class="hud"></div></section>
 </div>
-<div id="divider"></div><div id="score"></div><div id="toast">Faça pinça com polegar e indicador para escolher</div>
+<div id="centerline"></div><div id="score"></div>
+<div id="toast">A bolinha azul mostra onde seu dedo está apontando</div>
 <div id="permission"><div class="box">
  <div style="font-size:42px">🌀</div><h1>PORTAL MR</h1>
- <p>GAME UNIVERSE — mundos holográficos em realidade mista.</p>
- <p style="color:#a9d8ec;font-size:13px">Use o celular na horizontal. A câmera traseira aparece nas duas lentes. Faça pinça para escolher experiências e personagens.</p>
- <button id="start">INICIAR EXPERIÊNCIA</button><p id="error"></p>
-</div></div>
+ <p>Um mini ambiente de realidade mista em duas lentes, com giroscópio e rastreamento azul das duas mãos.</p>
+ <p style="color:#a9d8ec;font-size:13px">Use em um celular, permita a câmera e mova o aparelho como um visor VR. Coloque o celular em um suporte tipo Cardboard para uma experiência melhor.</p>
+ <button id="start">INICIAR EXPERIÊNCIA</button>
+ <div id="errorBox" style="display:none;margin-top:12px;padding:10px;border:1px solid #ff8585;border-radius:10px;color:#ffd0d0;font-size:12px;white-space:pre-wrap;text-align:left"></div>
+ <div style="font-size:11px;color:#85b8d1;margin-top:8px">A câmera é processada no próprio navegador. Requer conexão HTTPS e navegador compatível.</div>
+ </div></div>
 <script>
-const eyes=[...document.querySelectorAll('.eye')],videos=eyes.map(e=>e.querySelector('video')),canvases=eyes.map(e=>e.querySelector('canvas')),ctxs=canvases.map(c=>c.getContext('2d'));
-const $=s=>document.querySelector(s);
-let handsModel,latestHands=[],mode='home',score=0,lastAction=0,yaw=0,pitch=0,prevPinch=[false,false],streamRef=null,worldStart=0;
-let coasterType='dino',avatarType='sonic',handSeen=0;
-const menus={
- home:{title:'PORTAL MR',sub:'ESCOLHA SEU MUNDO',items:[['🎢','MONTANHAS-RUSSAS','coasters'],['🦸','VIRE UM PERSONAGEM','avatars']]},
- coasters:{title:'MONTANHAS-RUSSAS',sub:'ESCOLHA A SUA AVENTURA',items:[['🦖','MUNDO DOS DINOS','dino'],['👻','TERROR','horror'],['🚀','ESPAÇO','space'],['🌊','OCEANO','ocean'],['🏠','VOLTAR','home']]},
- avatars:{title:'PARQUE DE PERSONAGENS',sub:'ESCOLHA QUEM VOCÊ QUER SER',items:[['⚡','SONIC','sonic'],['🔥','GOKU','goku'],['🍥','NARUTO','naruto'],['🏴‍☠️','LUFFY','luffy'],['🏠','VOLTAR','home']]},
- ride:{title:'PASSEIO EM ANDAMENTO',sub:'A montanha-russa está em movimento',items:[['↩️','SAIR DO PASSEIO','coasters']]},
- avatarworld:{title:'TRANSFORMAÇÃO ATIVADA',sub:'Você entrou no parque como seu personagem',items:[['✨','TROCAR PERSONAGEM','avatars'],['🏠','MENU PRINCIPAL','home']]}
-};
-const $safe=(s)=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function menuHTML(m){return `<div class="panel"><h1>${m.title}</h1><p class="sub">${m.sub}</p><div class="items">${m.items.map(([ico,label,id])=>`<button class="tile" data-id="${id}"><span class="ico">${ico}</span>${label}</button>`).join('')}</div><div class="hint">Mãos azuis • faça pinça para selecionar</div></div>`}
-function updateMenu(){const m=menus[mode]||menus.home;eyes.forEach(e=>e.querySelector('.float').innerHTML=menuHTML(m));$('#score').textContent=mode==='ride'?'PASSEIO: '+rideName(coasterType):mode==='avatarworld'?'PERSONAGEM: '+avatarType.toUpperCase():''}
-function rideName(t){return ({dino:'MUNDO DOS DINOS',horror:'TERROR',space:'ESPAÇO',ocean:'OCEANO'})[t]||t}
-function toast(t){$('#toast').textContent=t}
-function enter(id){
- if(id==='coasters'||id==='avatars'||id==='home'){mode=id;updateMenu();toast(id==='coasters'?'Escolha uma montanha-russa':id==='avatars'?'Escolha seu personagem':'Bem-vindo ao PORTAL MR');return}
- if(['dino','horror','space','ocean'].includes(id)){coasterType=id;mode='ride';worldStart=performance.now();score=0;updateMenu();toast('Prepare-se! O passeio começou');return}
- if(['sonic','goku','naruto','luffy'].includes(id)){avatarType=id;mode='avatarworld';worldStart=performance.now();updateMenu();toast('Transformação: '+id.toUpperCase());return}
-}
-function hitMenu(x,y){
- const eye=eyes[0],r=eye.getBoundingClientRect(),px=r.left+x*r.width,py=r.top+y*r.height;
- const hit=[...eye.querySelectorAll('.tile')].find(b=>{const q=b.getBoundingClientRect();return px>=q.left&&px<=q.right&&py>=q.top&&py<=q.bottom});
- if(hit){enter(hit.dataset.id);lastAction=Date.now()}
-}
-function pinchAt(x,y){if(Date.now()-lastAction<280)return;hitMenu(x,y)}
-function resize(){canvases.forEach((c,i)=>{const r=eyes[i].getBoundingClientRect();c.width=Math.max(1,Math.round(r.width*devicePixelRatio));c.height=Math.max(1,Math.round(r.height*devicePixelRatio));ctxs[i].setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)})}
-addEventListener('resize',resize);
-function worldDraw(ctx,w,h,eyeIndex,now){
- ctx.clearRect(0,0,w,h);
- if(mode==='ride'){
-  const elapsed=(now-worldStart)/1000, speed=elapsed*1.7;
-  const theme={dino:['#173d2a','#79a94b','🦖'],horror:['#171326','#6b3c70','👻'],space:['#070d2c','#5c8cff','🪐'],ocean:['#062c49','#27c5d5','🐋']}[coasterType];
-  const g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'rgba(3,16,34,.30)');g.addColorStop(.6,'rgba(3,12,27,.22)');g.addColorStop(1,'rgba(2,7,17,.48)');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
-  // horizonte e cenário em movimento
-  ctx.save();ctx.globalAlpha=.75;
-  for(let i=0;i<18;i++){let x=((i*97-speed*90)% (w+100)+w+100)%(w+100)-50;let y=h*(.22+(i%5)*.08);
-   ctx.fillStyle=theme[1];if(coasterType==='dino'){ctx.beginPath();ctx.moveTo(x,y+65);ctx.lineTo(x+22,y-25-(i%3)*15);ctx.lineTo(x+48,y+65);ctx.fill();ctx.fillRect(x+18,y+35,12,40)}
-   else if(coasterType==='horror'){ctx.fillRect(x,y-20,7,100);ctx.beginPath();ctx.arc(x+4,y-20,25,0,Math.PI*2);ctx.fill()}
-   else if(coasterType==='space'){ctx.beginPath();ctx.arc(x,y,8+(i%4)*4,0,Math.PI*2);ctx.fill()}
-   else{ctx.beginPath();ctx.ellipse(x,y+30,28,60,0,0,Math.PI*2);ctx.fill()}
-  }
-  ctx.restore();
-  // trilhos em perspetiva, ondulando como carrinho
-  const bob=Math.sin(elapsed*3.2)*h*.045, curve=Math.sin(elapsed*1.1)*w*.12;
-  ctx.save();ctx.lineCap='round';
-  for(let rail=-1;rail<=1;rail+=2){ctx.beginPath();for(let j=0;j<=24;j++){let z=j/24,yy=h*(.45+z*.58)+bob*z,xx=w*.5+curve*z+rail*(w*(.015+z*.34));if(j===0)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy)}ctx.strokeStyle='#d6f7ff';ctx.lineWidth=3;ctx.shadowBlur=12;ctx.shadowColor='#21c7ff';ctx.stroke()}
-  for(let j=0;j<14;j++){let z=j/14,yy=h*(.47+z*.56)+bob*z,xx=w*.5+curve*z;ctx.beginPath();ctx.moveTo(xx-w*(.02+z*.34),yy);ctx.lineTo(xx+w*(.02+z*.34),yy);ctx.strokeStyle='#45bfff';ctx.lineWidth=2;ctx.stroke()}
-  ctx.restore();
-  if(coasterType==='dino'){ctx.font=`${Math.min(w,h)*.19}px serif`;ctx.fillText('🦖',w*.72,h*.43+Math.sin(elapsed*2)*12)}
-  if(coasterType==='horror'){ctx.font=`${Math.min(w,h)*.18}px serif`;ctx.fillText('👻',w*.7,h*.4+Math.sin(elapsed*2)*15)}
-  if(coasterType==='space'){ctx.font=`${Math.min(w,h)*.18}px serif`;ctx.fillText('🪐',w*.72,h*.4)}
-  if(coasterType==='ocean'){ctx.font=`${Math.min(w,h)*.18}px serif`;ctx.fillText('🐋',w*.72,h*.42+Math.sin(elapsed*2)*15)}
-  ctx.fillStyle='#eafaff';ctx.font='bold 12px system-ui';ctx.textAlign='center';ctx.fillText('PASSEIO IMERSIVO • '+Math.floor(elapsed)+'s',w/2,h*.12);
- }else if(mode==='avatarworld'){
-  const elapsed=(now-worldStart)/1000,g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'rgba(7,29,67,.32)');g.addColorStop(1,'rgba(2,7,17,.40)');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
-  // parque holográfico com portais
-  for(let i=0;i<5;i++){let x=w*(.12+i*.19),y=h*.38+Math.sin(elapsed+i)*8;ctx.beginPath();ctx.ellipse(x,y,w*.065,h*.17,0,0,Math.PI*2);ctx.strokeStyle=['#28cfff','#a76bff','#ffbd43'][i%3];ctx.lineWidth=3;ctx.shadowBlur=18;ctx.shadowColor=ctx.strokeStyle;ctx.stroke()}
-  const chars={sonic:['⚡','#168dff','SONIC'],goku:['🔥','#ff9d32','GOKU'],naruto:['🍥','#ff8a22','NARUTO'],luffy:['🏴‍☠️','#d84a43','LUFFY']},ch=chars[avatarType]||chars.sonic;
-  ctx.save();ctx.translate(w/2,h*.56+Math.sin(elapsed*2)*7);ctx.shadowBlur=28;ctx.shadowColor=ch[1];ctx.fillStyle=ch[1];ctx.beginPath();ctx.ellipse(0,0,w*.09,h*.16,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#f2fbff';ctx.beginPath();ctx.arc(0,-h*.19,w*.075,0,Math.PI*2);ctx.fill();ctx.font=`${Math.min(w,h)*.11}px system-ui`;ctx.textAlign='center';ctx.fillText(ch[0],0,-h*.17);ctx.restore();
-  ctx.fillStyle='#eafaff';ctx.font='bold 13px system-ui';ctx.textAlign='center';ctx.fillText('PARQUE DE PERSONAGENS',w/2,h*.13);ctx.font='11px system-ui';ctx.fillText('Você está no mundo de '+ch[2],w/2,h*.85);
- }else{
-  // fundo subtil de espera; passthrough continua visível
- }
-}
-function drawHands(ctx,w,h){
- latestHands.forEach((hand,hi)=>{if(!hand||hand.length<21)return;const pts=hand.map(p=>({x:p.x*w,y:p.y*h}));const chains=[[0,1,2,3,4],[0,5,6,7,8],[0,9,10,11,12],[0,13,14,15,16],[0,17,18,19,20],[5,9,13,17]];
-  ctx.save();ctx.lineWidth=2.5;ctx.strokeStyle='#28c7ff';ctx.shadowBlur=10;ctx.shadowColor='#00aaff';chains.forEach(ch=>{ctx.beginPath();ch.forEach((n,j)=>j?ctx.lineTo(pts[n].x,pts[n].y):ctx.moveTo(pts[n].x,pts[n].y));ctx.stroke()});pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,3.2,0,Math.PI*2);ctx.fillStyle='#31cfff';ctx.fill()});
-  const pinch=Math.hypot(pts[4].x-pts[8].x,pts[4].y-pts[8].y)<w*.055;
-  if(pinch&&!prevPinch[hi])pinchAt((pts[4].x+pts[8].x)/2/w,(pts[4].y+pts[8].y)/2/h);
-  prevPinch[hi]=pinch;ctx.restore();
- });
-}
-function render(now){
- eyes.forEach((eye,i)=>{const c=canvases[i],ctx=ctxs[i],w=c.width/devicePixelRatio,h=c.height/devicePixelRatio;
-  worldDraw(ctx,w,h,i,now);drawHands(ctx,w,h);
-  const f=eye.querySelector('.float');let sx=-yaw*1.25+(i===0?3:-3),sy=pitch*.9;
-  f.style.setProperty('--sx',Math.max(-w*.23,Math.min(w*.23,sx))+'px');f.style.setProperty('--sy',Math.max(-h*.12,Math.min(h*.12,sy))+'px');f.style.setProperty('--ry',Math.max(-12,Math.min(12,-yaw*.18))+'deg');
- });
- requestAnimationFrame(render);
-}
-async function loadHands(){
+async function loadHandsLibrary(){
  if(typeof Hands!=='undefined')return;
- const urls=['https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js','https://unpkg.com/@mediapipe/hands/hands.js'];let last;
- for(const url of urls){try{await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=url;s.async=true;s.onload=resolve;s.onerror=()=>reject(Error('Falha ao carregar '+url));document.head.appendChild(s)});if(typeof Hands!=='undefined')return}catch(e){last=e}}
- throw last||Error('Não foi possível carregar o rastreador de mãos. Verifique a internet.');
+ const urls=[
+  'https://unpkg.com/@mediapipe/hands/hands.js',
+  'https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js'
+ ];
+ let lastError;
+ for(const url of urls){
+  try{
+   await new Promise((resolve,reject)=>{
+    const script=document.createElement('script');
+    script.src=url;script.async=true;
+    script.onload=resolve;
+    script.onerror=()=>reject(new Error('Não foi possível carregar '+url));
+    document.head.appendChild(script);
+   });
+   if(typeof Hands!=='undefined')return;
+  }catch(e){lastError=e}
+ }
+ throw lastError||new Error('Biblioteca MediaPipe Hands indisponível');
 }
-async function start(){
- $('#start').disabled=true;$('#error').textContent='Abrindo câmera e rastreamento...';
- try{
-  // Tenta entrar em tela cheia e travar a orientação horizontal para o modo VR.
-  try{if(!document.fullscreenElement&&document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();if(screen.orientation?.lock)await screen.orientation.lock('landscape')}catch(e){}
-  if(!navigator.mediaDevices?.getUserMedia)throw Error('Abra esta página no Chrome usando HTTPS.');
-  resize();streamRef=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});
-  videos.forEach(v=>{v.srcObject=streamRef;v.muted=true;v.playsInline=true});await Promise.all(videos.map(v=>v.play()));
-  await loadHands();handsModel=new Hands({locateFile:f=>'https://cdn.jsdelivr.net/npm/@mediapipe/hands/'+f});
-  handsModel.setOptions({maxNumHands:2,modelComplexity:1,minDetectionConfidence:.6,minTrackingConfidence:.55});await handsModel.initialize();handsModel.onResults(r=>{latestHands=r.multiHandLandmarks||[];if(latestHands.length)handSeen=Date.now()});
-  let busy=false;async function track(){if(!busy&&videos[0].readyState>=2){busy=true;try{await handsModel.send({image:videos[0]})}catch(e){}busy=false}requestAnimationFrame(track)}track();
-  try{if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission){const p=await DeviceOrientationEvent.requestPermission();if(p!=='granted')toast('Giroscópio não autorizado')}addEventListener('deviceorientation',e=>{yaw=e.gamma||0;pitch=(e.beta||0)-45})}catch(e){toast('Giroscópio indisponível neste navegador')}
-  $('#permission').style.display='none';mode='home';updateMenu();requestAnimationFrame(render);toast('Arena pronta • menu flutuante • faça pinça');
- }catch(e){$('#start').disabled=false;$('#error').textContent='Erro: '+(e.message||e);toast('Não foi possível iniciar')}
+const $=s=>document.querySelector(s), eyes=[...document.querySelectorAll('.eye')], videos=eyes.map(e=>e.querySelector('video')), canvases=eyes.map(e=>e.querySelector('canvas')), ctxs=canvases.map(c=>c.getContext('2d'));
+let handsModel, latestHands=[], mode='menu', score=0, targets=[], lastAction=0, yaw=0,pitch=0,gyro=false,prevPinch=[false,false];
+const menu=[['🌐','Google','google'],['▶️','YouTube','youtube'],['🗺️','Mapas','maps'],['🎮','Jogos','games']];
+function resize(){canvases.forEach((c,i)=>{let r=eyes[i].getBoundingClientRect();c.width=r.width*devicePixelRatio;c.height=r.height*devicePixelRatio;ctxs[i].setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)})}addEventListener('resize',resize);
+function showMenu(){mode='menu';targets=[];score=0;updateHud();toast('A bolinha acompanha seu dedo • faça pinça para selecionar');}
+function updateHud(){let html='';if(mode==='menu'){html=`<div class="panel"><h1>PORTAL MR</h1><p class="sub">ESCOLHA UM PORTAL COM UMA PINÇA</p><div class="menu">${menu.map(([ic,n,id])=>`<div class="tile" data-id="${id}"><span class="emoji">${ic}</span>${n}</div>`).join('')}</div><div class="hint">🖐️ Rastreie as duas mãos • 🤏 Pinça para selecionar</div></div>`}
+else if(mode==='games'){html=`<div class="panel"><h1>ÁREA DE JOGOS</h1><p class="sub">ESCOLHA SEU DESAFIO</p><div class="menu"><div class="tile" data-id="emoji"><span class="emoji">😈</span>Caça-Emojis</div><div class="tile" data-id="zombie"><span class="emoji">🧟</span>Espada de Luz</div><div class="tile" data-id="back"><span class="emoji">↩️</span>Voltar</div></div><div class="hint">Faça pinça em cima da opção</div></div>`}
+else if(mode==='emoji'||mode==='zombie'){html=`<div class="panel"><h1>${mode==='emoji'?'CAÇA-EMOJIS':'ESPADA DE LUZ'}</h1><p class="sub">${mode==='emoji'?'Belisque os emojis para marcar pontos':'Sua mão vira uma lâmina azul: faça pinça perto dos alvos'}</p><div class="hint">Pontos: ${score}</div><div class="menu"><div class="tile" data-id="menu"><span class="emoji">⌂</span>Menu</div></div></div>`}
+else {html=`<div class="panel"><h1>${mode==='google'?'GOOGLE':mode==='youtube'?'YOUTUBE':'MAPAS'}</h1><p class="sub">${mode==='maps'?'Explore lugares do mundo no Google Maps': 'Portal externo aberto em outra aba'}</p><div class="menu"><div class="tile" data-id="back">↩️ Voltar</div><div class="tile" data-id="menu">⌂ Início</div></div></div>`}
+eyes.forEach(e=>e.querySelector('.hud').innerHTML=html);
 }
-$('#start').addEventListener('click',start);resize();updateMenu();
+function toast(t){$('#toast').textContent=t}
+function spawn(){if(targets.length<5){targets.push({x:.18+Math.random()*.64,y:.23+Math.random()*.52,r:.055,life:Date.now(),emoji:['😀','😎','👾','🍕','🤖','👻'][Math.floor(Math.random()*6)]})}}
+function drawCursor(ctx,x,y,pinching,now){
+ // Mira holográfica visível: círculo externo, núcleo e pequeno brilho.
+ const pulse=1+Math.sin(now/95)*.12;
+ ctx.save();
+ ctx.globalCompositeOperation='lighter';
+ ctx.shadowBlur=pinching?30:19;
+ ctx.shadowColor=pinching?'#ffffff':'#18caff';
+ ctx.beginPath();ctx.arc(x,y,(pinching?19:14)*pulse,0,Math.PI*2);
+ ctx.strokeStyle=pinching?'rgba(255,255,255,.98)':'rgba(45,218,255,.98)';
+ ctx.lineWidth=pinching?3.5:2.8;ctx.stroke();
+ ctx.beginPath();ctx.arc(x,y,pinching?7:5,0,Math.PI*2);
+ ctx.fillStyle=pinching?'#ffffff':'#58eaff';ctx.fill();
+ ctx.beginPath();ctx.arc(x,y,pinching?25:20,0,Math.PI*2);
+ ctx.strokeStyle=pinching?'rgba(140,235,255,.7)':'rgba(32,185,255,.45)';
+ ctx.lineWidth=1.2;ctx.stroke();
+ ctx.restore();
+}
+function draw(){let now=Date.now();eyes.forEach((eye,i)=>{let c=canvases[i],ctx=ctxs[i],w=c.width/devicePixelRatio,h=c.height/devicePixelRatio;ctx.clearRect(0,0,w,h);
+ ctx.save();ctx.translate(Math.sin(yaw)*10,Math.sin(pitch)*7);
+ if(mode==='emoji'||mode==='zombie'){targets.forEach(t=>{let x=t.x*w,y=t.y*h;ctx.shadowBlur=22;ctx.shadowColor='#16bfff';ctx.fillStyle=mode==='emoji'?'#fff':'#d5f7ff';ctx.font=`${Math.max(25,t.r*w*1.5)}px system-ui`;ctx.textAlign='center';ctx.fillText(t.emoji,x,y);ctx.beginPath();ctx.arc(x,y,t.r*w,0,Math.PI*2);ctx.strokeStyle='#3fcaffaa';ctx.lineWidth=2;ctx.stroke()})}
+ latestHands.forEach((hand,hi)=>{if(!hand||!hand.length)return;let pts=hand.map(p=>({x:(1-p.x)*w,y:p.y*h}));let chains=[[0,1,2,3,4],[0,5,6,7,8],[0,9,10,11,12],[0,13,14,15,16],[0,17,18,19,20],[5,9,13,17]];
+ ctx.lineWidth=3;ctx.strokeStyle='#18baff';ctx.shadowBlur=9;ctx.shadowColor='#00aaff';chains.forEach(ch=>{ctx.beginPath();ch.forEach((n,j)=>j?ctx.lineTo(pts[n].x,pts[n].y):ctx.moveTo(pts[n].x,pts[n].y));ctx.stroke()});
+ pts.forEach((p,n)=>{ctx.beginPath();ctx.arc(p.x,p.y,n===4||n===8?5:3.5,0,Math.PI*2);ctx.fillStyle='#28c7ff';ctx.fill();ctx.strokeStyle='#d6f8ff';ctx.lineWidth=1;ctx.stroke()});
+ let pinch=Math.hypot(pts[4].x-pts[8].x,pts[4].y-pts[8].y)<w*.055;
+ // A bolinha fica na ponta do indicador; durante a pinça vai para o ponto exato entre os dedos.
+ const cursorX=pinch?(pts[4].x+pts[8].x)/2:pts[8].x;
+ const cursorY=pinch?(pts[4].y+pts[8].y)/2:pts[8].y;
+ drawCursor(ctx,cursorX,cursorY,pinch,now);
+ if(pinch&&!prevPinch[hi])handlePinch(cursorX/w,cursorY/h);
+ prevPinch[hi]=pinch;
+ if(mode==='zombie'){ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);ctx.lineTo(pts[8].x,pts[8].y);ctx.strokeStyle=pinch?'#e8fbff':'#20baff';ctx.lineWidth=pinch?9:5;ctx.shadowBlur=20;ctx.stroke()}
+ });ctx.restore();
+ });
+ if((mode==='emoji'||mode==='zombie')&&now-lastAction>900){spawn();lastAction=now}
+ targets=targets.filter(t=>now-t.life<(mode==='zombie'?4500:6000));requestAnimationFrame(draw)}
+function handlePinch(x,y){if(Date.now()-lastAction<180)return;
+ if(mode==='menu'||mode==='games'||mode==='google'||mode==='youtube'||mode==='maps'){
+  let id;let tiles=[...eyes[0].querySelectorAll('.tile')];if(tiles.length){let rect=eyes[0].getBoundingClientRect();let px=x*rect.width,py=y*rect.height;let hit=tiles.find(t=>{let r=t.getBoundingClientRect();return px+rect.left>=r.left&&px+rect.left<=r.right&&py+rect.top>=r.top&&py+rect.top<=r.bottom});id=hit?.dataset.id}
+  if(!id)return;lastAction=Date.now();
+  if(id==='google'){mode='google';window.open('https://www.google.com','_blank')}
+  else if(id==='youtube'){mode='youtube';window.open('https://m.youtube.com','_blank')}
+  else if(id==='maps'){mode='maps';window.open('https://www.google.com/maps','_blank')}
+  else if(id==='games'){mode='games'}
+  else if(id==='emoji'||id==='zombie'){mode=id;score=0;targets=[]}
+  else if(id==='back'||id==='menu'){showMenu()}
+  updateHud();return;
+ }
+ if(mode==='emoji'||mode==='zombie'){let t=targets.findIndex(t=>Math.hypot(t.x-x,t.y-y)<t.r*1.7);if(t>=0){targets.splice(t,1);score++;lastAction=Date.now();updateHud();toast(mode==='emoji'?'Emoji capturado!':'Alvo acertado!')} }
+}
+async function start(){try{
+ const errBox=$('#errorBox');errBox.style.display='none';errBox.textContent='';
+ $('#start').disabled=true;$('#start').textContent='INICIANDO...';
+ resize();
+ const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});
+ videos.forEach(v=>{v.srcObject=stream;v.muted=true;v.playsInline=true;}); await Promise.all(videos.map(v=>v.play()));
+ await loadHandsLibrary();
+ handsModel=new Hands({locateFile:f=>`https://unpkg.com/@mediapipe/hands/${f}`});
+ handsModel.setOptions({maxNumHands:2,modelComplexity:1,minDetectionConfidence:.6,minTrackingConfidence:.55}); await handsModel.initialize();
+ handsModel.onResults(r=>{latestHands=r.multiHandLandmarks||[]});
+ const processFrame=async()=>{if(handsModel && videos[0].readyState>=2){try{await handsModel.send({image:videos[0]})}catch(err){console.warn('Hand tracking frame:',err)}}requestAnimationFrame(processFrame)};
+ await new Promise((resolve,reject)=>{if(videos[0].readyState>=2)return resolve();videos[0].onloadedmetadata=()=>resolve();setTimeout(()=>reject(new Error('A câmera não iniciou a tempo')),10000)});
+ processFrame();
+ try{if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission){let p=await DeviceOrientationEvent.requestPermission();gyro=p==='granted'}else{gyro=true}}
+ catch(e){gyro=false}
+ if(gyro)addEventListener('deviceorientation',e=>{yaw=(e.gamma||0)*Math.PI/180;pitch=(e.beta||0)*Math.PI/180});
+ showMenu();draw();$('#permission').style.display='none';toast('Câmera traseira ativa • bolinha azul acompanha seu dedo');
+ }catch(e){
+  console.error(e);
+  $('#permission').style.display='flex';
+  $('#start').disabled=false;$('#start').textContent='TENTAR NOVAMENTE';
+  const b=$('#errorBox');b.style.display='block';b.textContent='Erro detectado: '+(e?.message||String(e))+'\n\nVerifique a conexão e tente novamente.';
+  toast('Falha ao iniciar. Veja o erro na tela.');
+ }}
+$('#start').addEventListener('click',start);
+showMenu();
 </script>
 </body></html>
